@@ -1,0 +1,52 @@
+<a href="#a" ng-click='commentOpen = !commentOpen'>
+    <i class="glyphicon glyphicon-comment"></i>
+    <ng-pluralize count="$ctrl.comments.length" when="{'0': '0 Comments',
+    '1': '1 Comment',
+    'other': '{{$ctrl.comments.length }} Comments'}">
+  </ng-pluralize>
+  </a>
+<div ng-if="commentOpen">
+  <div class="posts" ng-repeat="comment in $ctrl.comments">
+    <blockquote class="blockquote">
+      <p class='lead'> {{ comment.content }}</p>
+      <footer><span am-time-ago="comment.created_at"></span> by {{ comment.author }} <a ng-click="$ctrl.deleteComment(comment)"><i class="glyphicon glyphicon-trash"></i></a><a ng-click="$ctrl.editingComment(comment)">  <i class="glyphicon glyphicon-edit"></i></a></footer>
+      <form novalidate ng-if="$ctrl.editing === comment.id" name="$ctrl.editCommentForm" ng-submit="$ctrl.editComment(comment)">
+        <div class="form-group">
+          <label for="comment">Comment</label>
+          <input class="form-control" type="text" ng-class="{'invalid' : $ctrl.editCommentForm.content.$invalid && $ctrl.editCommentForm.content.$touched}" required ng-model='$ctrl.updatedComment.content' id="content" name="content">
+          <div ng-messages="$ctrl.editCommentForm.content.$error" ng-if="$ctrl.editCommentForm.content.$touched">
+            <h6 class="text-danger" ng-message="required">Silly, you haven't written anything.</h6>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input class="form-control" ng-class="{'invalid' : $ctrl.editCommentForm.author.$invalid && $ctrl.editCommentForm.author.$touched}" required type="text" ng-model="$ctrl.updatedComment.author" id="author" name="author">
+          <div ng-messages="$ctrl.editCommentForm.author.$error" ng-if="$ctrl.editCommentForm.author.$touched">
+            <h6 class="text-danger" ng-message="required">Your name is required.</h6>
+          </div>
+        </div>
+        <!-- ng-disabled="!$ctrl.commentForm.$valid" -->
+        <button class="btn btn-info" type="submit">Submit</button>
+      </form>
+    </blockquote>
+  </div>
+  <form novalidate name="$ctrl.commentForm" ng-submit="$ctrl.addComment(comment)">
+    <div class="form-group">
+      <label for="comment">Comment</label>
+      <input class="form-control" type="text" ng-class="{'invalid' : $ctrl.commentForm.content.$invalid && $ctrl.commentForm.content.$touched}" required ng-model='$ctrl.comment.content' id="content" name="content" placeholder="be nice...">
+      <div ng-messages="$ctrl.commentForm.content.$error" ng-if="$ctrl.commentForm.content.$touched">
+        <h6 class="text-danger" ng-message="required">Silly, you haven't written anything.</h6>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input class="form-control" ng-class="{'invalid' : $ctrl.commentForm.author.$invalid && $ctrl.commentForm.author.$touched}" required type="text" ng-model="$ctrl.comment.author" id="author" name="author">
+      <div ng-messages="$ctrl.commentForm.author.$error" ng-if="$ctrl.commentForm.author.$touched">
+        <h6 class="text-danger" ng-message="required">Your name is required.</h6>
+      </div>
+    </div>
+    <!-- ng-disabled="!$ctrl.commentForm.$valid" -->
+    <button class="btn btn-info" type="submit">Submit</button>
+  </form>
+</div>
+</div>

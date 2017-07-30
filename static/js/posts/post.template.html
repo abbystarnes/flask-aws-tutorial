@@ -1,0 +1,27 @@
+<div class="well well-lg left">
+  <div ng-if="!$ctrl.editingPost" <span ng-show='$ctrl.post.image_url'><img class="img-responsive img-res" ng-src='{{$ctrl.post.image_url}}' alt='no image :(' /></span>
+    <h3>{{ $ctrl.post.title }}
+      <small><a href="#a" class="btn" ng-click='$ctrl.post.favorite = true' ng-show='!$ctrl.post.favorite'><i class="glyphicon glyphicon-star-empty"></i></a></smalll>
+      <small><a href="#a" class="btn" ng-click='$ctrl.post.favorite = false' ng-show='$ctrl.post.favorite'><i class="glyphicon glyphicon-star"></i></a></small>
+      <span class='text-right'>
+        <!-- <span ng-if='user === post.author'> -->
+        <a href="#a" class="text-right btn" ng-click="$ctrl.deletePost()" href="#a"><i class="glyphicon glyphicon-trash"></i></a>
+        <!-- </span> -->
+        <a ui-sref='edit({id: $ctrl.post.id})' class="text-right btn" ><i class="glyphicon glyphicon-edit"></i>edit</a>
+      </span>
+    </h3>
+    <h5><em><span am-time-ago="post.created_at"></span> by {{ $ctrl.post.author }}</em></h5>
+    <h5 class="text-left">
+      <ng-pluralize count="$ctrl.post.vote_count" when="{'0': '0 Votes',
+      '1': '1 Vote',
+      'other': '{{ $ctrl.post.vote_count }} Votes'}">
+    </ng-pluralize>
+    <div class="btn-group">
+      <a href="#a" class="btn" ng-click='$ctrl.upVote(post)'><i class="glyphicon glyphicon-thumbs-up"></i></a>
+      <a href="#a" class="btn" ng-if='$ctrl.voteStatus(post)' ng-click='$ctrl.downVote(post)'><i class="glyphicon glyphicon-thumbs-down"></i></a>
+    </div>
+  </h5>
+    <div class="lead">{{$ctrl.post.body}}</div>
+    <comments post='$ctrl.post'></comments>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+main {
+  background-image:url("../images/IMG_3152.PNG");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+}
+.invalid {
+  border:0.5px solid red;
+}
+
+button a {
+  color:white;
+  text-decoration:none;
+}
+
+.post-image {
+  height: 500px;
+  width: 500px;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.img-res {
+  height:350px;
+  width:100%;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+.well-lg {
+  background: #FBFBFB;
+}
+
+.post-form {
+  color: white;
+  background:#1F2F2D ;
+}
+
+textarea {
+  min-height: 200px;
+}
+
+nav, nav h4 {
+  font-weight: lighter;
+  color: white;
+  background:#1F2F2D ;
+}
+
+label {
+  font-weight: lighter;
+}
+
+.space {
+  height: 600px;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: 0 none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.btn-default {
+    background: #33a6cc;
+    color: white;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+    background: #33a6cc;
+}
+
+.btn-default:active, .btn-default.active {
+    background: #33a6cc;
+    box-shadow: none;
+}
+
+.posts.ng-enter {
+  -webkit-transition: 1s;
+  transition: 1s;
+  opacity: 0;
+}
+
+.posts.ng-enter-active {
+  opacity: 1;
+}
+
+.posts.ng-leave {
+  -webkit-transition: 1s;
+  transition: 1s;
+
+  opacity: 1;
+}
+
+.posts.ng-leave-active {
+  opacity: 0;
+}

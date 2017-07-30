@@ -1,0 +1,131 @@
+<nav class="navbar">
+  <div class='container-fluid'>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <h4 class="navbar-brand">Limericks</h4>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="navbar-right">
+        <button class="btn btn-default outline navbar-btn" ui-sref="add" ng-if="!$ctrl.postOpen">New Post</button>
+        <button class="btn btn-default outline navbar-btn" ui-sref="posts" ng-if="$ctrl.postOpen">New Post</button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="navbar navbar-default">
+  <div class="container">
+    <ul class="nav navbar-nav">
+      <li><a href="#a" class="navbar-link" ng-show="!$ctrl.favorites" ng-click="$ctrl.favorites = !$ctrl.favorites"><i class="glyphicon glyphicon-star-empty"></i></a></li>
+      <li><a href="#a" class="navbar-link" ng-show="$ctrl.favorites" ng-click="$ctrl.favorites = !$ctrl.favorites"><i class="glyphicon glyphicon-star"></i></a></li>
+      <li><a href="#a" class="navbar-link" ng-show="!$ctrl.reverseSort" ng-click="$ctrl.reverseSort = !$ctrl.reverseSort">&#9651;</a></li>
+      <li><a href="#a" class="navbar-link" ng-show="$ctrl.reverseSort" ng-click="$ctrl.reverseSort = !$ctrl.reverseSort">&#9661;</a></li>
+      <li ng-click="$ctrl.setActive($event)" ng-class="{'active': $ctrl.votes === $ctrl.activeItem}"><a href="#a" id='votes' class="navbar-link" ng-click="$ctrl.sort('vote_count','true')">Sort By Votes</a></li>
+      <li ng-click="$ctrl.setActive($event)" ng-class="{'active': $ctrl.date === $ctrl.activeItem}"><a href="#a" id='date' class="navbar-link" ng-click="$ctrl.sort('created_at','true')">Sort By Date</a></li>
+      <li ng-click="$ctrl.setActive($event)" ng-class="{'active': $ctrl.title === $ctrl.activeItem}"><a href="#a" id='title' class="navbar-link" ng-click="$ctrl.sort('title','')">Sort By Title</a></li>
+    </ul>
+    <div class="navbar-form navbar-left">
+      <input type="text" class="form-control mr-sm-2" placeholder="Filter" ng-model="$ctrl.filter">
+    </div>
+  </div>
+</div>
+<main>
+  <div ng-if="$ctrl.postOpen" class="animate">
+    <div class='row post-form'>
+      <div class="container">
+        <div class="col-md-8">
+          <br>
+          <form class="form-group" novalidate name="$ctrl.postForm" ng-submit="$ctrl.addPost()">
+            <p>
+              <label for="title">Title</label>
+              <input class="form-control" ng-class="{'invalid' : $ctrl.postForm.title.$invalid && $ctrl.postForm.title.$touched}" required ng-model='$ctrl.post.title' id="title" name="title">
+              <div ng-messages="$ctrl.postForm.title.$error" ng-if="$ctrl.postForm.title.$touched">
+                <h6 class="text-danger" ng-message="required">A title is required.</h6>
+              </div>
+            </p>
+            <p>
+              <label for="body">Body</label>
+              <textarea class="form-control" ng-class="{'invalid' : $ctrl.postForm.body.$invalid && $ctrl.postForm.body.$touched}" ng-model='$ctrl.post.body' required id="body" name="body"></textarea>
+              <div ng-messages="$ctrl.postForm.body.$error" ng-if="$ctrl.postForm.body.$touched">
+                <h6 class="text-danger" ng-message="required">Silly, you haven't written anything.</h6>
+              </div>
+            </p>
+            <p>
+              <label for="image_url">Image URL</label>
+              <input class="form-control" ng-class="{'invalid' : $ctrl.postForm.image_url.$invalid && $ctrl.postForm.image_url.$touched}" ng-model='$ctrl.post.image_url' required id="image_url" name="image_url">
+              <div ng-messages="$ctrl.postForm.image_url.$error" ng-if="$ctrl.postForm.image_url.$touched">
+                <h6 class="text-danger" ng-message="required">An image is required.</h6>
+              </div>
+            </p>
+            <p>
+              <label for="author">Author</label>
+              <input class="form-control" ng-class="{'invalid' : $ctrl.postForm.author.$invalid && $ctrl.postForm.author.$touched }" ng-model='$ctrl.post.author' required id="author" name="author">
+              <div ng-messages="$ctrl.postForm.author.$error" ng-if="$ctrl.postForm.author.$touched">
+                <h6 class="text-danger" ng-message="required">An author is required.</h6>
+              </div>
+            </p>
+            <p>
+              <button class="btn btn-default outline" ng-disabled="!$ctrl.postForm.$valid" type="submit">Create Post</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="$ctrl.editingOpen" class="animate">
+    <div class='row post-form'>
+      <div class="container">
+        <div class="col-md-8">
+          <form class="form-group" novalidate name="$ctrl.editPostForm" ng-submit="$ctrl.editPost()">
+            <p>
+              <label for="title">Title</label>
+              <input class="form-control" ng-class="{'invalid' : $ctrl.editPostForm.title.$invalid && $ctrl.editPostForm.title.$touched}" required ng-model='$ctrl.updatedPost.title' id="title" name="title">
+              <div ng-messages="$ctrl.editPostForm.title.$error" ng-if="$ctrl.editPostForm.title.$touched">
+                <h6 class="text-danger" ng-message="required">A title is required.</h6>
+              </div>
+            </p>
+            <p>
+              <label for="body">Body</label>
+              <textarea class="form-control" ng-class="{'invalid' : $ctrl.editPostForm.body.$invalid && $ctrl.editPostForm.body.$touched}" ng-model='$ctrl.updatedPost.body' required id="body" name="body"></textarea>
+              <div ng-messages="$ctrl.editPostForm.body.$error" ng-if="$ctrl.editPostForm.body.$touched">
+                <h6 class="text-danger" ng-message="required">Silly, you haven't written anything.</h6>
+              </div>
+            </p>
+            <p>
+              <label for="image_url">Image URL</label>
+              <input class="form-control" ng-class="{'invalid' : $ctrl.editPostForm.image_url.$invalid && $ctrl.editPostForm.image_url.$touched}" ng-model='$ctrl.updatedPost.image_url' required id="image_url" name="image_url">
+              <div ng-messages="$ctrl.editPostForm.image_url.$error" ng-if="$ctrl.editPostForm.image_url.$touched">
+                <h6 class="text-danger" ng-message="required">An image is required.</h6>
+              </div>
+            </p>
+            <p>
+              <label for="author">Author</label>
+              <input class="form-control" ng-class="{'invalid' : $ctrl.editPostForm.author.$invalid && $ctrl.editPostForm.author.$touched }" ng-model='$ctrl.updatedPost.author' required id="author" name="author">
+              <div ng-messages="$ctrl.editPostForm.author.$error" ng-if="$ctrl.editPostForm.author.$touched">
+                <h6 class="text-danger" ng-message="required">An author is required.</h6>
+              </div>
+            </p>
+            <p>
+              <button class="btn btn-default outline" ng-disabled="!$ctrl.editPostForm.$valid" type="submit">Update Post</button>
+              <button class="btn btn-default outline" type="button"><a ng-click="$ctrl.editingPost = !$ctrl.editingPost" ui-sref="posts">Cancel</a></button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="posts col-sm-12 col-md-6" ng-repeat="post in $ctrl.posts | orderBy:$ctrl.sortCat:$ctrl.reverseSort | filter: (($ctrl.favorites || '') && {title: $ctrl.filter, favorite: 'true'}) || {title: $ctrl.filter}">
+        <post post='post'></post>
+      </div>
+    </div>
+  </div>
+  <div class="space"></div>
+</main>
+</main>
